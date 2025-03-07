@@ -1,4 +1,4 @@
-package main
+package hoops2
 
 type Picks struct {
 	Raw []int
@@ -100,11 +100,11 @@ func (p Picks) Region(regionNumber int) map[int][]int {
 	}
 }
 
-func ComparePicks(truth Picks, cmp Picks) Picks {
-	correctPicks := make([]int, len(truth.Raw))
-	for i := range len(truth.Raw) {
-		if truth.Raw[i] == cmp.Raw[i] {
-			correctPicks[i] = truth.Raw[i]
+func (p Picks) Compare(other Picks) Picks {
+	correctPicks := make([]int, len(p.Raw))
+	for i := range len(p.Raw) {
+		if p.Raw[i] == other.Raw[i] {
+			correctPicks[i] = p.Raw[i]
 		} else {
 			correctPicks[i] = 0
 		}

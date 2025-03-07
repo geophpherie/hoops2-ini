@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="../static/css/table-styles.css" />
+</head>
+
+<body>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="8"></th>
+          <th colspan="4" class="heading">
+            <img src="../static/img/bball.gif" width="25px" /> Hoops {{.Name}}
+            <img src="../static/img/bball.gif" width="25px" />
+          </th>
+          <th colspan="15">Results</th>
+        </tr>
+        <tr class="green-background">
+          <th colspan="2">Contestant</th>
+          <th colspan="6">Correct Picks / Total Points<br />By Round</th>
+          <th colspan="4">
+            Total Points Round1/Round2/Round3/Round4<br />By Region
+          </th>
+          <th colspan="12">Seed Numbers</th>
+          <th colspan="3">Region<br />Numbers</th>
+        </tr>
+        <tr>
+          <th>{{ if eq .ActiveName "pts" }} Pts {{ else }}
+            <a href="{{ .PtsHref }}">Pts</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "name" }} Name {{ else }}
+            <a href="{{ .NameHref }}">Name</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rd1" }} 1 {{ else }}
+            <a href="{{ .Rd1Href }}">1</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rd2" }} 2 {{ else }}
+            <a href="{{ .Rd2Href }}">2</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rd3" }} 3 {{ else }}
+            <a href="{{ .Rd3Href }}">3</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rd4" }} 4 {{ else }}
+            <a href="{{ .Rd4Href }}">4</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rd5" }} 5 {{ else }}
+            <a href="{{ .Rd5Href }}">5</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rd6" }} 6 {{ else }}
+            <a href="{{ .Rd6Href }}">6</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rg1" }} {{ (index .Regions 1).Name }} {{ else }}
+            <a href="{{ .Rg1Href }}">{{ (index .Regions 1).Name }}</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rg2" }} {{ (index .Regions 2).Name }} {{ else }}
+            <a href="{{ .Rg2Href }}">{{ (index .Regions 2).Name }}</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rg3" }} {{ (index .Regions 3).Name }} {{ else }}
+            <a href="{{ .Rg3Href }}">{{ (index .Regions 3).Name }}</a>
+            {{ end }}
+          </th>
+          <th>{{ if eq .ActiveName "rg4" }} {{ (index .Regions 4).Name }} {{ else }}
+            <a href="{{ .Rg4Href }}">{{ (index .Regions 4).Name }}</a>
+            {{ end }}
+          </th>
+          <th colspan="8" class="green-background">Region Finalists</th>
+          <th colspan="4" class="green-background">Final 4</th>
+          <th class="tiny-font">SF</th>
+          <th class="tiny-font">SF</th>
+          <th>F</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Results}}
+        <tr>
+          <td {{ if eq $.ActiveName "pts" }}class="points-background" {{end}}>{{.PoolScore.Total}}</td>
+          <td class='align-text-left{{ if eq $.ActiveName "name" }} points-background{{end}}'>{{.Name}}</td>
+          <td {{ if eq $.ActiveName "rd1" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeCorrectPicksByRound 1}}/{{index
+            .PoolScore.CumulativeScoreByRound 1}}
+          </td>
+          <td {{ if eq $.ActiveName "rd2" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeCorrectPicksByRound 2}}/{{index
+            .PoolScore.CumulativeScoreByRound 2}}
+          </td>
+          <td {{ if eq $.ActiveName "rd3" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeCorrectPicksByRound 3}}/{{index
+            .PoolScore.CumulativeScoreByRound 3}}
+          </td>
+          <td {{ if eq $.ActiveName "rd4" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeCorrectPicksByRound 4}}/{{index
+            .PoolScore.CumulativeScoreByRound 4}}
+          </td>
+          <td {{ if eq $.ActiveName "rd5" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeCorrectPicksByRound 5}}/{{index
+            .PoolScore.CumulativeScoreByRound 5}}
+          </td>
+          <td {{ if eq $.ActiveName "rd6" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeCorrectPicksByRound 6}}/{{index
+            .PoolScore.CumulativeScoreByRound 6}}
+          </td>
+          <td {{ if eq $.ActiveName "rg1" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeScoreByRoundByRegion 1 1}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 1 2}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 1 3}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 1 4}}
+          </td>
+          <td {{ if eq $.ActiveName "rg2" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeScoreByRoundByRegion 2 1}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 2 2}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 2 3}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 2 4}}
+          </td>
+          <td {{ if eq $.ActiveName "rg3" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeScoreByRoundByRegion 3 1}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 3 2}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 3 3}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 3 4}}
+          </td>
+          <td {{ if eq $.ActiveName "rg4" }}class="points-background" {{end}}>
+            {{index .PoolScore.CumulativeScoreByRoundByRegion 4 1}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 4 2}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 4 3}}/{{index
+            .PoolScore.CumulativeScoreByRoundByRegion 4 4}}
+          </td>
+          {{ range .FinishingPicks.RegionFinalists }}
+          <td>{{ . }}</td>
+          {{end}} {{ range .FinishingPicks.FinalFour }}
+          <td>{{ . }}</td>
+          {{end}} {{ range .FinishingPicks.FinalGame }}
+          <td class="finalists-background">{{ . }}</td>
+          {{end}}
+          <td class="finalists-background">{{ .FinishingPicks.Winner }}</td>
+        </tr>
+        {{end}}
+        <tr>
+          <td colspan="10">Last updated <time datetime="{{ .LastModified }}">{{ .LastModified }}</time></td>
+          <td colspan="17">Comments send email to <a href="mailto:hello@hoops2.net?Subject=Hoops2 Web">
+              <email>hello@hoops2.net</email>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

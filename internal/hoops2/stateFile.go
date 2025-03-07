@@ -1,8 +1,11 @@
-package main
+package hoops2
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -37,17 +40,19 @@ func parseStateData(fileLines []string) (Pool, error) {
 	pool.RoundWeights = make(map[int]int)
 	weights := strings.Fields(fileLines[1])
 	for i, rw := range weights[len(weights)-6:] {
-		round, err := strconv.Atoi(rw)
+		roundNumber := i + 1
+		weight, err := strconv.Atoi(rw)
 		if err != nil {
 			panic(err)
 		}
-		pool.RoundWeights[i+1] = round
+		pool.RoundWeights[roundNumber] = weight
 	}
 
 	// lines 2,3,4,5 are regions
-	pool.Regions = make(map[int]RegionDefinition)
+	pool.Regions = make(map[int]Region)
 	for i, regionLine := range fileLines[2:6] {
-		region := RegionDefinition{}
+		regionNumber := i + 1
+		region := Region{}
 
 		values := strings.Split(regionLine, "#")
 		region.Name = values[0]
@@ -62,7 +67,7 @@ func parseStateData(fileLines []string) (Pool, error) {
 
 		}
 
-		pool.Regions[i+1] = region
+		pool.Regions[regionNumber] = region
 	}
 
 	// line 6 is the results, with the final 3 numbers referencing region number not seed
@@ -105,6 +110,30 @@ func parseStateData(fileLines []string) (Pool, error) {
 	return pool, nil
 }
 
-func exportStateData() {
-	// TODO:
+func ExportToJson(pool Pool, path string) error {
+	data, err := json.MarshalIndent(pool, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	dirPath := filepath.Dir(path)
+	// Create the directory if it doesn't exist
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		err := os.MkdirAll(dirPath, 0755)
+		if err != nil {
+			fmt.Println("Error creating directory:", err)
+			return err
+		}
+		fmt.Println("Directory created successfully:", dirPath)
+	} else if err != nil {
+		fmt.Println("Error checking directory:", err)
+		return err
+	}
+
+	err = os.WriteFile(path, data, 0755)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

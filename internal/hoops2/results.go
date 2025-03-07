@@ -1,74 +1,11 @@
-package main
+package hoops2
 
-import (
-	"fmt"
-	"path/filepath"
-	"slices"
-)
-
-type Pool struct {
-	Name         string
-	RoundWeights map[int]int
-	Regions      map[int]RegionDefinition
-	GameResults  Picks
-	Contestants  map[string]Contestant
-	Results      []PoolResult
-}
-
-type RegionDefinition struct {
-	Name  string
-	Teams map[int]string
-}
-
-type Contestant struct {
-	Name  string
-	Picks Picks
-}
+import "fmt"
 
 type PoolResult struct {
 	Name string
 	PoolScore
 	FinishingPicks
-}
-
-const (
-	SORT_TOTAL_POINTS = iota
-	SORT_NAME
-	SORT_ROUND_1
-	SORT_ROUND_2
-	SORT_ROUND_3
-	SORT_ROUND_4
-	SORT_REGION_1
-	SORT_REGION_2
-	SORT_REGION_3
-	SORT_REGION_4
-)
-
-func (p *Pool) SortResults(sortMethod int) {
-	switch sortMethod {
-	case SORT_TOTAL_POINTS:
-		slices.SortFunc(p.Results, sortTotalPoints)
-	case SORT_NAME:
-		slices.SortFunc(p.Results, sortName)
-	case SORT_ROUND_1:
-		slices.SortFunc(p.Results, sortRound(1))
-	case SORT_ROUND_2:
-		slices.SortFunc(p.Results, sortRound(2))
-	case SORT_ROUND_3:
-		slices.SortFunc(p.Results, sortRound(3))
-	case SORT_ROUND_4:
-		slices.SortFunc(p.Results, sortRound(4))
-	case SORT_REGION_1:
-		slices.SortFunc(p.Results, sortRegion(1))
-	case SORT_REGION_2:
-		slices.SortFunc(p.Results, sortRegion(2))
-	case SORT_REGION_3:
-		slices.SortFunc(p.Results, sortRegion(3))
-	case SORT_REGION_4:
-		slices.SortFunc(p.Results, sortRegion(4))
-	default:
-		panic("unknown sort")
-	}
 }
 
 func (pr PoolResult) Format() string {
@@ -154,42 +91,4 @@ func (pr PoolResult) Format() string {
 		finalFour,
 		finals,
 	)
-}
-
-func NewPoolFromFile(filePath string) (Pool, error) {
-	fileLines, err := loadStateData(filePath)
-	if err != nil {
-		return Pool{}, err
-	}
-
-	pool, err := parseStateData(fileLines)
-	if err != nil {
-		return Pool{}, err
-	}
-
-	pool.Name = filepath.Ext(filePath)[2:]
-
-	score := CalculateScoring(pool.GameResults, pool.RoundWeights)
-	poolResults := []PoolResult{
-		{
-			Name:           "TRUTH",
-			PoolScore:      score,
-			FinishingPicks: pool.GameResults.FinishingPicks(),
-		},
-	}
-
-	for name, contestant := range pool.Contestants {
-		comparedPicks := ComparePicks(pool.GameResults, contestant.Picks)
-		score = CalculateScoring(comparedPicks, pool.RoundWeights)
-
-		poolResults = append(poolResults, PoolResult{
-			Name:           name,
-			PoolScore:      score,
-			FinishingPicks: contestant.Picks.FinishingPicks(),
-		})
-	}
-
-	pool.Results = poolResults
-
-	return pool, nil
 }

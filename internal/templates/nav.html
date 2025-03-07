@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="../static/css/nav-styles.css" />
+</head>
+
+<body>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          {{ range .TopRow}}
+          <th>
+            <a href="{{ .Href }}" target="content">{{ .Name }}</a>
+          </th>
+          {{ end }}
+        </tr>
+        <tr>
+          {{ range .BotRow}}
+          <th>
+            <a href="{{ .Href }}" target="content">{{ .Name }}</a>
+          </th>
+          {{ end }}
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</body>
+
+</html>

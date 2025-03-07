@@ -1,4 +1,4 @@
-package main
+package hoops2
 
 type PoolScore struct {
 	Total                          int

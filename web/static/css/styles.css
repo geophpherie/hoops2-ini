@@ -1,0 +1,68 @@
+html,
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  /*font-family: Terminal, "Arial", sans-serif;*/
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #add8e6;
+  padding: 8px 0px 14px 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  overflow: auto
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hr1 {
+  border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+  border-left: none;
+  border-right: none;
+  height: 2px;
+  width: 100vw;
+  margin-top: 1px;
+  margin-bottom: 0;
+}
+
+.hr2 {
+  border-top: 1px solid #7f7f7f;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  height: 1px;
+  width: 100vw;
+  margin: 0;
+  margin-bottom: 8px;
+}
+
+.iframe-container {
+  width: 100%;
+  height: 100%;
+  /* Make sure the iframe container takes up all available space */
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+  /* Full height */
+  border: none;
+  overflow: ;
+  max-width: 100%;
+  /* Ensure iframe can scroll if needed */
+}

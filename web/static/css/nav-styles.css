@@ -1,0 +1,19 @@
+/* Table Styles */
+
+table {
+  text-align: center;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #b2b2b2;
+  /* Outer table border color */
+  background-color: white;
+}
+
+td,
+th {
+  border: 1px inset black;
+}
+
+a {
+  font-size: 12pt;
+}
