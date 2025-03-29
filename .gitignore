@@ -30,3 +30,4 @@ ini/
 web/*
 !web/static/
 resources/
+results_files/
