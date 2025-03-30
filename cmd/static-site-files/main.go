@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"path/filepath"
 	"strings"
 
@@ -11,6 +10,7 @@ import (
 
 const EXPORT_FOLDER = "./web"
 const INI_FOLDER = "./ini"
+const RESULTS_FILES_FOLDER = "./results_files"
 
 func main() {
 	matches, err := filepath.Glob(filepath.Join(INI_FOLDER, "*.I*"))
@@ -28,7 +28,6 @@ func main() {
 		htmlFiles := html.CreatePoolFiles(pool)
 
 		for _, file := range htmlFiles {
-			fmt.Println(file)
 			files = append(files, strings.TrimPrefix(file, "web"))
 		}
 	}

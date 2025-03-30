@@ -1,6 +1,7 @@
 package hoops2
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -15,6 +16,7 @@ type Pool struct {
 	Contestants  map[string]Contestant
 	Results      []PoolResult
 	LastModified string
+	ResultsFile  string
 }
 
 type Region struct {
@@ -46,6 +48,15 @@ func NewPoolFromFile(filePath string) (Pool, error) {
 		pool.Name = fmt.Sprintf("20%02d", year)
 	} else {
 		pool.Name = fmt.Sprintf("19%02d", year)
+	}
+
+	resultFile := fmt.Sprintf("./results_files/RESULT%v.TXT", year)
+
+	_, err = os.Stat(resultFile)
+	if errors.Is(err, os.ErrNotExist) {
+		pool.ResultsFile = ""
+	} else {
+		pool.ResultsFile = resultFile
 	}
 
 	score := CalculateScoring(pool.GameResults, pool.RoundWeights)

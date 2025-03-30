@@ -16,7 +16,9 @@
             <img src="../static/img/bball.gif" width="25px" /> Hoops {{.Name}}
             <img src="../static/img/bball.gif" width="25px" />
           </th>
-          <th colspan="15">Results</th>
+          <th colspan="15">{{ if ne .ResultsHref "" }} <a href="{{ .ResultsHref }}">Results</a>{{ else }}Results {{ end
+            }}
+          </th>
         </tr>
         <tr class="green-background">
           <th colspan="2">Contestant</th>

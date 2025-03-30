@@ -65,6 +65,14 @@ func CreatePoolFiles(pool hoops2.Pool) []string {
 	folder := fmt.Sprintf("./web/%v", pool.Name)
 	_ = os.Mkdir(folder, 0755)
 
+	var resultsFile string
+	// make the results file here (copy from source)
+	if pool.ResultsFile != "" {
+		resultsFile = filepath.Join(folder, "results.txt")
+		data, _ := os.ReadFile(pool.ResultsFile)
+		_ = os.WriteFile(resultsFile, data, 0666)
+	}
+
 	indexFile := filepath.Join(folder, "index.html")
 	sortNameFile := filepath.Join(folder, "sortName.html")
 	sortRound1File := filepath.Join(folder, "sortRound1.html")
@@ -104,19 +112,20 @@ func CreatePoolFiles(pool hoops2.Pool) []string {
 
 		tmpl.Execute(file, struct {
 			hoops2.Pool
-			ActiveName string
-			PtsHref    string
-			NameHref   string
-			Rd1Href    string
-			Rd2Href    string
-			Rd3Href    string
-			Rd4Href    string
-			Rd5Href    string
-			Rd6Href    string
-			Rg1Href    string
-			Rg2Href    string
-			Rg3Href    string
-			Rg4Href    string
+			ActiveName  string
+			PtsHref     string
+			NameHref    string
+			Rd1Href     string
+			Rd2Href     string
+			Rd3Href     string
+			Rd4Href     string
+			Rd5Href     string
+			Rd6Href     string
+			Rg1Href     string
+			Rg2Href     string
+			Rg3Href     string
+			Rg4Href     string
+			ResultsHref string
 		}{
 			pool,
 			b.active,
@@ -132,7 +141,10 @@ func CreatePoolFiles(pool hoops2.Pool) []string {
 			strings.TrimPrefix(sortRegion2File, "web"),
 			strings.TrimPrefix(sortRegion3File, "web"),
 			strings.TrimPrefix(sortRegion4File, "web"),
+			strings.TrimPrefix(resultsFile, "web"),
 		})
+
+		fmt.Println(strings.TrimPrefix(resultsFile, "web"))
 
 		file.Close()
 	}
